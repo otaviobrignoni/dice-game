@@ -42,7 +42,7 @@ internal class Program
         }
     }
 
-        public static int RandomNumber()
+    public static int RandomNumber()
     {
         Random numberGenerator = new Random();
         int n = numberGenerator.Next(1, 7);
