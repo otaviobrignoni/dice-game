@@ -4,27 +4,51 @@ internal class Program
 {
     static void Main(string[] args)
     {
+        const int finishLine = 30;
+
         while (true)
         {
-            Console.WriteLine("Dice Game");
-            Console.WriteLine("Press any key to roll the dice...");
-            Console.ReadKey();
+            int playerPosition = 0;
+            bool ongoingGame = true;
 
-            int result = RandomNumber();
+            while (ongoingGame)
+            {
+                Console.Clear();
+                Console.WriteLine("Dice Game");
+                Console.WriteLine("Press any key to roll the dice...");
+                Console.ReadKey();
 
-            Console.WriteLine($"The dice rolled {result}");
+                int result = RandomNumber();
+
+                Console.WriteLine($"The dice rolled {result}");
+
+                playerPosition += result;
+
+                if (playerPosition >= finishLine)
+                {
+                    ongoingGame = false;
+                    Console.WriteLine("You reached the finish line");
+                }
+                else
+                    Console.WriteLine($"You are in the position {playerPosition} of {finishLine}");
+
+                Console.WriteLine("Press any key to proceed...");
+                Console.ReadKey();
+
+            }
             char continueChar = ContinuePrompt();
             if (continueChar != 'Y')
                 break;
         }
     }
 
-    public static int RandomNumber()
+        public static int RandomNumber()
     {
         Random numberGenerator = new Random();
-        return numberGenerator.Next(1, 7);
+        int n = numberGenerator.Next(1, 7);
+        return n;
     }
-    
+
     public static char ContinuePrompt()
     {
         Console.Write("Do you wish to continue? (Y/N) -> ");
