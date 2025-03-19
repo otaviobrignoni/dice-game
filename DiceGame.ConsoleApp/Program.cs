@@ -24,13 +24,43 @@ internal class Program
 
                 playerPosition += result;
 
+                Console.WriteLine($"You are in the position {playerPosition} of {finishLine}");
+
+                if (playerPosition == 5 || playerPosition == 10 || playerPosition == 15 || playerPosition == 25)
+                {
+                    int tileAdvance = RandomNumber();
+                    playerPosition += tileAdvance;
+                    string plural;
+                    
+                    if (tileAdvance == 1)
+                        plural = "tile";
+                    else
+                        plural = "tiles";
+
+                    Console.WriteLine("Special Event: Advance " + tileAdvance + " {0}", plural);
+                    Console.WriteLine($"You landed on the position {playerPosition} of {finishLine}");
+                }
+                else if (playerPosition == 7 || playerPosition == 13 || playerPosition == 20)
+                {
+                    int tileRetreat = RandomNumber();
+                    playerPosition -= tileRetreat;
+                    string plural;
+
+                    if (tileRetreat == 1)
+                        plural = "tile";
+                    else
+                        plural = "tiles";
+
+                    Console.WriteLine("Special Event: Retreat " + tileRetreat + " {0}", plural);
+                    Console.WriteLine($"You landed on the position {playerPosition} of {finishLine}");
+                }
+
+
                 if (playerPosition >= finishLine)
                 {
                     ongoingGame = false;
                     Console.WriteLine("You reached the finish line");
-                }
-                else
-                    Console.WriteLine($"You are in the position {playerPosition} of {finishLine}");
+                } 
 
                 Console.WriteLine("Press any key to proceed...");
                 Console.ReadKey();
