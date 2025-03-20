@@ -1,70 +1,91 @@
 ﻿namespace DiceGame.ConsoleApp;
 
 class Game
-{
+{    
+    public static void Start()
+    {
+        const int finishLine = 30;
+        int playerPosition = 0;
+        int cpuPosition = 0;
+        bool ongoingGame = true;
+
+        while (ongoingGame)
+        {
+            Text.Player.ShowTurn();
+            Logic(playerPosition, finishLine, false, out playerPosition);
+            Text.Input.ShowAnyKeyInput();
+            if (playerPosition >= finishLine)
+            {
+                ongoingGame = false;
+                Text.CPU.ShowFinishLine();
+                continue;
+            }
+
+            Text.CPU.ShowTurn();
+            Logic(cpuPosition, finishLine, true, out cpuPosition);
+            if (cpuPosition >= finishLine)
+            {
+                ongoingGame = false;
+                Text.Player.ShowFinishLine();
+                continue;
+            }
+            Text.Input.ShowAnyKeyInput();
+        }
+    }
+
     public static void Logic(int currentPosition, int finishLine, bool isCPU, out int updatedPosition)
     {
         updatedPosition = currentPosition;
 
         if (!isCPU)
         {
-            Console.WriteLine("Press any key to roll the dice...");
-            Console.ReadKey();
+            Text.Player.RollDice();
         }
         else
         {
-            Console.WriteLine("Computer is rolling the dice");
-            Thread.Sleep(900);
+            Text.CPU.RollDice();
         }
 
         int result = RandomNumber();
-
-        Console.WriteLine($"The dice rolled {result}");
-
+        Text.Game.ShowDiceRoll(result);
         updatedPosition += result;
 
         if (!isCPU)
-            Console.WriteLine($"You are in the position {updatedPosition} of {finishLine}");
+            Text.Player.ShowPosition(updatedPosition, finishLine);
         else
-            Console.WriteLine($"Computer is in the position {updatedPosition} of {finishLine}");
+            Text.CPU.ShowPosition(updatedPosition, finishLine);
 
         if (updatedPosition == 5 || updatedPosition == 10 || updatedPosition == 15 || updatedPosition == 25)
         {
             int tileAdvance = RandomNumber();
             updatedPosition += tileAdvance;
-            string plural;
-
-            if (tileAdvance == 1)
-                plural = "tile";
-            else
-                plural = "tiles";
-
-            Console.WriteLine("Special Event: Advance " + tileAdvance + " {0}", plural);
+            Text.Game.ShowGoodSpecialEvent(tileAdvance);
             if (!isCPU)
-                Console.WriteLine($"You landed on the position {updatedPosition} of {finishLine}");
+            {
+                Text.Player.ShowAfterEventPosition(updatedPosition, finishLine);
+            }
             else
-                Console.WriteLine($"Computer landed on the position {updatedPosition} of {finishLine}");
+            {
+                Text.CPU.ShowAfterEventPosition(updatedPosition, finishLine);
+            }
         }
         else if (updatedPosition == 7 || updatedPosition == 13 || updatedPosition == 20)
         {
             int tileRetreat = RandomNumber();
-
             updatedPosition -= tileRetreat;
-            string plural;
-
-            if (tileRetreat == 1)
-                plural = "tile";
-            else
-                plural = "tiles";
-
-            Console.WriteLine("Special Event: Retreat " + tileRetreat + " {0}", plural);
+            Text.Game.ShowBadSpecialEvent(tileRetreat);
+            
             if (!isCPU)
-                Console.WriteLine($"You landed on the position {updatedPosition} of {finishLine}");
+            {
+                Text.Player.ShowAfterEventPosition(updatedPosition, finishLine);
+            }
             else
-                Console.WriteLine($"Computer landed on the position {updatedPosition} of {finishLine}");
+            {
+                Text.CPU.ShowAfterEventPosition(updatedPosition, finishLine);
+            }
         }
     }
-    
+
     public static int RandomNumber()
     {
         Random numberGenerator = new Random();
