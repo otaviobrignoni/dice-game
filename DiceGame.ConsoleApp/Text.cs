@@ -7,7 +7,8 @@ class Text
     {
         public static void ShowStart()
         {
-            Console.Clear();
+            Console.Clear(); 
+            Console.WriteLine("\x1b[3J");
             string title = "Dice Game";
             int padding = (width - title.Length) / 2;
             Console.WriteLine(new string('─', width));
@@ -32,7 +33,7 @@ class Text
                 tile = "tile";
             else
                 tile = "tiles";
-            
+
             Console.WriteLine();
             Console.WriteLine(new string('─', width));
             Console.WriteLine($"Special Event: Advance {advance} {tile}");
@@ -56,7 +57,8 @@ class Text
     {
         public static void ShowTurn()
         {
-            Console.Clear();
+            Console.Clear(); 
+            Console.WriteLine("\x1b[3J");
             string title = "Computer's turn";
             int padding = (width - title.Length) / 2;
             Console.WriteLine(new string('─', width));
@@ -94,6 +96,7 @@ class Text
         public static void ShowTurn()
         {
             Console.Clear();
+            Console.WriteLine("\x1b[3J");
             string title = "Player's turn";
             int padding = (width - title.Length) / 2;
             Console.WriteLine(new string('─', width));
