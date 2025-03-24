@@ -6,9 +6,10 @@ internal class Program
     {
         do
         {
+            Console.Title = "Dice Game";
             Text.Game.ShowStart();
-            Game.Start();
+            Game.Run();
         } 
-        while (Text.Input.ContinueGame());
+        while (Text.Input.PromptContinueGame());
     }
 }

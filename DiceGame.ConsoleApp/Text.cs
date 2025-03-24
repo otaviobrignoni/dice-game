@@ -84,7 +84,7 @@ class Text
             Console.WriteLine("Computer reached the finish line");
             Console.WriteLine(new string('─', width));
         }
-        public static void RollDice()
+        public static void PromptRollDice()
         {
             Console.WriteLine("Computer is rolling the dice");
             Console.WriteLine(new string('─', width));
@@ -122,7 +122,7 @@ class Text
             Console.WriteLine("You reached the finish line");
             Console.WriteLine(new string('─', width));
         }
-        public static void RollDice()
+        public static void PromptDiceRoll()
         {
             Console.WriteLine("Press any key to roll the dice...");
             Console.WriteLine(new string('─', width));
@@ -137,7 +137,7 @@ class Text
             Console.WriteLine(new string('─', width));
             Console.ReadKey();
         }
-        public static bool ContinueGame()
+        public static bool PromptContinueGame()
         {
             Console.Write("Do you wish to play another game? (Y/N) -> ");
             string userInput = Console.ReadLine()!;

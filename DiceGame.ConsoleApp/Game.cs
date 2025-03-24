@@ -2,7 +2,7 @@
 
 class Game
 {    
-    public static void Start()
+    public static void Run()
     {
         const int finishLine = 30;
         int playerPosition = 0;
@@ -39,11 +39,11 @@ class Game
 
         if (!isCPU)
         {
-            Text.Player.RollDice();
+            Text.Player.PromptDiceRoll();
         }
         else
         {
-            Text.CPU.RollDice();
+            Text.CPU.PromptRollDice();
         }
 
         int result = RandomNumber();
