@@ -43,7 +43,7 @@ class Game
         }
         else
         {
-            Text.CPU.PromptRollDice();
+            Text.CPU.PromptDiceRoll();
         }
 
         int result = RandomNumber();

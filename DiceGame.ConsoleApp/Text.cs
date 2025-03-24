@@ -84,7 +84,7 @@ class Text
             Console.WriteLine("Computer reached the finish line");
             Console.WriteLine(new string('─', gameWidth));
         }
-        public static void PromptRollDice()
+        public static void PromptDiceRoll()
         {
             Console.WriteLine("Computer is rolling the dice");
             Console.WriteLine(new string('─', gameWidth));
