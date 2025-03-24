@@ -1,10 +1,10 @@
 ﻿namespace DiceGame.ConsoleApp;
 
 class Game
-{    
+{
+    const int finishLine = 30;
     public static void Run()
     {
-        const int finishLine = 30;
         int playerPosition = 0;
         int cpuPosition = 0;
         bool ongoingGame = true;
@@ -12,7 +12,7 @@ class Game
         while (ongoingGame)
         {
             Text.Player.ShowTurn();
-            Logic(playerPosition, finishLine, false, out playerPosition);
+            Turn(playerPosition, false, out playerPosition);
             Text.Input.ShowAnyKeyInput();
             if (playerPosition >= finishLine)
             {
@@ -22,7 +22,7 @@ class Game
             }
 
             Text.CPU.ShowTurn();
-            Logic(cpuPosition, finishLine, true, out cpuPosition);
+            Turn(cpuPosition, true, out cpuPosition);
             if (cpuPosition >= finishLine)
             {
                 ongoingGame = false;
@@ -33,7 +33,7 @@ class Game
         }
     }
 
-    public static void Logic(int currentPosition, int finishLine, bool isCPU, out int updatedPosition)
+    public static void Turn(int currentPosition, bool isCPU, out int updatedPosition)
     {
         updatedPosition = currentPosition;
 
