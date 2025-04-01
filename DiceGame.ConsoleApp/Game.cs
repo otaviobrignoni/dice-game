@@ -1,95 +1,66 @@
-﻿namespace DiceGame.ConsoleApp;
+﻿using System.Reflection.Metadata;
+
+namespace DiceGame.ConsoleApp;
 
 class Game
 {
     const int finishLine = 30;
+    static readonly int[] goodEventTiles = { 5, 10, 15, 25 };
+    static readonly int[] badEventTiles = { 7, 13, 20 };
     public static void Run()
     {
-        int playerPosition = 0;
-        int cpuPosition = 0;
+        Player user = new Player("User", false);
+        Player cpu = new Player("Dave", true);
+        Player[] players = [user, cpu];
         bool ongoingGame = true;
 
         while (ongoingGame)
         {
-            Text.Player.ShowTurn();
-            Turn(playerPosition, false, out playerPosition);
-            Text.Input.ShowAnyKeyInput();
-            if (playerPosition >= finishLine)
+            foreach (Player player in players)
             {
-                ongoingGame = false;
-                Text.CPU.ShowFinishLine();
-                continue;
+                player.ShowTurn();
+                Turn(player);
+                if (player.Position >= finishLine)
+                {
+                    ongoingGame = false;
+                    player.ShowFinishLine();
+                    break;
+                }
+                Text.Input.ShowAnyKeyInput();
             }
-
-            Text.CPU.ShowTurn();
-            Turn(cpuPosition, true, out cpuPosition);
-            if (cpuPosition >= finishLine)
-            {
-                ongoingGame = false;
-                Text.Player.ShowFinishLine();
-                continue;
-            }
-            Text.Input.ShowAnyKeyInput();
         }
     }
 
-    public static void Turn(int currentPosition, bool isCPU, out int updatedPosition)
+    public static void Turn(Player player)
     {
-        updatedPosition = currentPosition;
-
-        if (!isCPU)
-        {
-            Text.Player.PromptDiceRoll();
-        }
-        else
-        {
-            Text.CPU.PromptDiceRoll();
-        }
-
+        player.PromptDiceRoll();
         int result = RandomNumber();
         Text.Game.ShowDiceRoll(result);
-        updatedPosition += result;
+        player.Position += result;
 
-        if (!isCPU)
-            Text.Player.ShowPosition(updatedPosition, finishLine);
-        else
-            Text.CPU.ShowPosition(updatedPosition, finishLine);
+        player.ShowPosition(finishLine);
 
-        if (updatedPosition == 5 || updatedPosition == 10 || updatedPosition == 15 || updatedPosition == 25)
+        if (goodEventTiles.Contains(player.Position))
         {
             int tileAdvance = RandomNumber();
-            updatedPosition += tileAdvance;
+            player.Position += tileAdvance;
             Text.Game.ShowGoodSpecialEvent(tileAdvance);
-            if (!isCPU)
-            {
-                Text.Player.ShowAfterEventPosition(updatedPosition, finishLine);
-            }
-            else
-            {
-                Text.CPU.ShowAfterEventPosition(updatedPosition, finishLine);
-            }
+            player.ShowAfterEventPosition(finishLine);
+
         }
-        else if (updatedPosition == 7 || updatedPosition == 13 || updatedPosition == 20)
+        else if (badEventTiles.Contains(player.Position))
         {
             int tileRetreat = RandomNumber();
-            updatedPosition -= tileRetreat;
+            player.Position -= tileRetreat;
             Text.Game.ShowBadSpecialEvent(tileRetreat);
-            
-            if (!isCPU)
-            {
-                Text.Player.ShowAfterEventPosition(updatedPosition, finishLine);
-            }
-            else
-            {
-                Text.CPU.ShowAfterEventPosition(updatedPosition, finishLine);
-            }
+            player.ShowAfterEventPosition(finishLine);
+
         }
     }
 
     public static int RandomNumber()
     {
         Random numberGenerator = new Random();
-        int n = numberGenerator.Next(1, 7);
-        return n;
+        return numberGenerator.Next(1, 7);
     }
 }
